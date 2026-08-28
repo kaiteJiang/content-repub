@@ -1,0 +1,46 @@
+# License
+
+本项目采用**分文件双许可**，请按文件来源分别遵循。
+
+## 一、整体项目（MIT License）
+
+除下述特别说明的文件外，本项目其余部分（`SKILL.md`、`README.md`、`references/parse_tweet.md`、`references/publish.md`、`references/theme-index.md`、`references/themes/*.md` 等）采用 MIT License：
+
+```
+MIT License
+
+Copyright (c) 2026 content-repub contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+## 二、去 AI 味规则（CC BY-SA 4.0）
+
+`references/humanize.md` 的内容基于 [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)（采用 **Creative Commons Attribution-ShareAlike 4.0 International**），并参考开源项目 [blader/humanizer](https://github.com/blader/humanizer) 与 [hardikpandya/stop-slop](https://github.com/hardikpandya/stop-slop)。
+
+该文件沿用 **CC BY-SA 4.0** 许可，使用时须：
+
+1. **署名（BY）**：保留上述 Wikipedia、blader/humanizer、stop-slop 的来源说明；
+2. **相同方式共享（SA）**：对该文件内容的修改与衍生，须以相同许可 CC BY-SA 4.0 分发。
+
+CC BY-SA 4.0 全文：https://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+## 三、主题组件库
+
+`references/themes/*.md` 的排版主题风格借鉴自公开的公众号排版主题，已做二次整理，按本文件第一部分（MIT）处理。

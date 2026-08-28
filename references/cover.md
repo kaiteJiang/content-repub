@@ -1,0 +1,49 @@
+# 封面设计（punk-cover 方法 + codex 生图）
+
+为文章生成高转化公众号封面图。**封面提示词用 punk-cover 方法生成，生图路由 codex CLI 优先、降级 grok CLI**。
+
+## 封面提示词生成（调用 punk-cover）
+
+1. **读 punk-cover 技能**：`~/.workbuddy/skills/punk-cover/SKILL.md`、`references/style-catalog.md`（风格目录）、`references/cover-prompt-blueprint.md`（封面提示词蓝图）。
+2. **平台固定**：微信 2.35:1，不询问。
+3. **选风格（自动）**：按内容题材从 styles 库自动选 1 个合适风格，不交互确认：
+   - AI / 科技 / 产品 / 行业 / 分析 → `business-magazine-front-page`、`midcentury-surreal-editorial-cover`、`black-midcentury-modernist-cover`、`retro-torn-collage` 中选 1
+   - 其他 → 按 `style-catalog.md` 的启发式选（business/report 风格用于行业内容，journal/concept 用于机制类内容）
+   - 只用 `META.md` 中 `outputs` 含 `cover` 或 `poster` 的风格
+4. **读所选风格**：`~/.workbuddy/styles/{style-id}/META.md` + `STYLE.md`，提取不可妥协的视觉锚点（材料、空间逻辑、标题处理、排版行为、纹理、配色、负面约束）。
+5. **按蓝图编译整合式提示词**：以 `cover-prompt-blueprint.md` 为结构（role → 输入字段 → 内容理解 → 风格应用 → 构图 → 图文关系 → 排版 → 配色/材质/纹理 → 负面约束 → 最终标准），把所选风格的锚点**融入每一个封面决策**，输出一段完整连贯的封面生成提示词（不是"封面指令 + 风格指令"的拼接）。
+6. **硬要求（缺一不可）**：
+   - **封面带标题文字**：主标题完整、准确、清晰可读（长标题用 A/B/C 层级：短高冲击主标题 + 完整标题 + 副题）
+   - **具体视觉主体**：可辨识、有冲击力（机器人、人物、场景特写等），禁止纯抽象符号拼贴
+   - **高对比配色**：主色 + 撞色/亮色点缀
+   - 比例 2.35:1
+
+## 生图路由
+
+### 优先：codex CLI
+
+```bash
+codex exec --skip-git-repo-check "生成一张横版公众号封面图，宽高比 2.35:1：<punk-cover 编译出的整合式提示词>。保存为 <输出.png>"
+```
+
+- **必须加 `--skip-git-repo-check`**；**不要加 `-m gpt-image-2`**（ChatGPT 订阅不支持）。
+- 判定失败：退出码非 0、输出文件不存在、或长时间无响应（约 >5 分钟）。
+
+### 降级：grok CLI
+
+codex 出错或无响应时，改用 grok CLI（`grok -p "…同提示词…"`，需 grok 已登录）。若 grok 也未认证/无响应，记录问题并停止，不反复重试。
+
+## 生成后校验
+
+- 文件存在 + 实际宽高比接近 2.35:1。
+- 主标题文字完整可读、无错别字、未被裁切。
+- 有明确视觉主体、配色有对比、有纵深感、风格统一。
+
+## 兜底
+
+punk-cover / styles 文件缺失时，按硬要求（带标题文字 + 具体主体 + 高对比配色 + 2.35:1）自行生成提示词。
+
+## 使用
+
+- 排版后、推送前生成（供 `publish.cjs --cover` 使用）。
+- 封面标题文字呼应 `--title` 核心词，避免重复堆砌。
