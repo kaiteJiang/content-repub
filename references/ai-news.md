@@ -15,6 +15,7 @@ GET https://aihot.virxact.com/api/v1/items?mode=selected&window=24h&limit=15
 - 抓 `limit=15` 再挑选，不要只抓 3—5 条。
 - 请求头 User-Agent 带 Actor 标识：读取本机 `~/.workbuddy/skills/aihot/.aihot-actor-id`，内容为合法 UUID v4 时 User-Agent 追加 `aihot-actor/<uuid>`；否则用基础 UA `aihot-skill/1.5.3 (+https://aihot.virxact.com/aihot-skill/)`。
 - 只连 `https://aihot.virxact.com/api/v1/*`，不索要 key/cookie/账号。
+- **Windows 坑**：`curl -o` 直接写入含中文的路径会报 exit 23（write error），改用 shell 重定向 `curl -s "URL" > /e/workbuddy/tmp_xxx/sel.json` 存到 ASCII 路径再解析。
 - 默认 `window=24h`。
 
 字段（展示前判空）：`title`、`summary`、`reason`、`source.name`、`category`、`score`、`links.original`（第三方原文）、`links.aihot`（站内阅读页，仅摘要+推荐理由，**无全文**）。

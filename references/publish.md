@@ -184,6 +184,7 @@ main().catch(e => { console.error(JSON.stringify({ success: false, error: e.mess
 | `40164` | IP 不在白名单 | 把错误里的实际 IP 交给用户，加入公众号后台 API IP 白名单后重试 |
 | `40001` | AppSecret 错误 | 核对 WECHAT_APP_SECRET |
 | `45009` | 接口调用频率超限 | 稍等重试 |
+| `缺少 --html 文件`（文件明明存在） | Windows 下 Git Bash 传给 Node 的是 `/e/...` POSIX 路径，Node 判定不存在 | `--html` / `--cover` 一律用 Windows 反斜杠绝对路径，如 `E:\\workbuddy\\...\\article_final.html` |
 | `fetch failed` | 封面/正文图下载超时 | 多为 Node fetch 不走系统代理（twimg 需代理）。用 `HTTPS_PROXY=<代理> node --use-env-proxy` 运行即可 |
 
 > **代理坑**：Node 22 的 `fetch` 默认不读系统代理，`pbs.twimg.com` 等外链图可能连接超时（Python 的 urllib 会自动读系统代理所以能成功）。检测系统代理可用 `python -c "import urllib.request; print(urllib.request.getproxies())"`；解决：`HTTPS_PROXY=http://127.0.0.1:10808 HTTP_PROXY=http://127.0.0.1:10808 node --use-env-proxy _publish.cjs ...`（Node 22 需 `--use-env-proxy` 标志，未支持则改用带代理的脚本）。

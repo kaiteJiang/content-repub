@@ -27,7 +27,7 @@ codex exec --skip-git-repo-check "生成一张横版公众号封面图，宽高�
 ```
 
 - **必须加 `--skip-git-repo-check`**；**不要加 `-m gpt-image-2`**（ChatGPT 订阅不支持）。
-- 判定失败：退出码非 0、输出文件不存在、或长时间无响应（约 >5 分钟）。
+- 判定失败：退出码非 0、输出文件不存在、长时间无响应（约 >5 分钟）、或报「usage limit / You've hit your usage limit」（订阅额度用尽，会给出恢复时间；直接降级，不要重试 codex）。
 
 ### 降级：grok CLI
 
