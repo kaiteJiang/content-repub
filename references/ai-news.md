@@ -9,12 +9,12 @@
 匿名只读 API，无需 Key：
 
 ```text
-GET https://aihot.virxact.com/api/v1/items?mode=selected&window=24h&limit=15
+GET https://aihot.news/api/v1/items?mode=selected&window=24h&limit=15
 ```
 
 - 抓 `limit=15` 再挑选，不要只抓 3—5 条。
-- 请求头 User-Agent 带 Actor 标识：读取本机 `~/.workbuddy/skills/aihot/.aihot-actor-id`，内容为合法 UUID v4 时 User-Agent 追加 `aihot-actor/<uuid>`；否则用基础 UA `aihot-skill/1.5.3 (+https://aihot.virxact.com/aihot-skill/)`。
-- 只连 `https://aihot.virxact.com/api/v1/*`，不索要 key/cookie/账号。
+- 请求头 User-Agent 带 Actor 标识：读取本机 `~/.workbuddy/skills/aihot/.aihot-actor-id`，内容为合法 UUID v4 时 User-Agent 追加 `aihot-actor/<uuid>`；否则用基础 UA `aihot-skill/1.6.0 (+https://aihot.news/aihot-skill/)`。
+- 只连 `https://aihot.news/api/v1/*`，不索要 key/cookie/账号。旧域名 `https://aihot.virxact.com/api/v1/*` 是官方长期保留的兼容入口，仍可读取，但默认走新域名。
 - **Windows 坑**：`curl -o` 直接写入含中文的路径会报 exit 23（write error），改用 shell 重定向 `curl -s "URL" > /e/workbuddy/tmp_xxx/sel.json` 存到 ASCII 路径再解析。
 - 默认 `window=24h`。
 
@@ -101,6 +101,6 @@ GET https://aihot.virxact.com/api/v1/items?mode=selected&window=24h&limit=15
 
 ## 安全与合规
 
-- 只连 `https://aihot.virxact.com/api/v1/*` 匿名只读接口
+- 只连 `https://aihot.news/api/v1/*` 匿名只读接口（`https://aihot.virxact.com/api/v1/*` 为官方长期保留的兼容入口）
 - `anything-md.doocs.org` 是开源 URL→Markdown 服务，仅用于抓取公开网页正文；抓第三方原文时遵守其版权，解读用自己的话概括+评述，不整段搬运
 - 个人非商业、公益非商业、组织内部使用免费；面向外部的商业产品/收费/转售/公开镜像须先取得 AIHOT 书面授权
