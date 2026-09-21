@@ -7,8 +7,17 @@
 ## 一、生成词表
 
 ```bash
-node run/seo_radar.cjs
+node scripts/seo-radar/seo_radar.cjs
 ```
+
+> **路径约定（重要）**：脚本与两个配置文件（`seo_roots.json` / `seo_dictionary.json`）都在**本 skill 的 `scripts/seo-radar/` 目录**下，随 skill 一起分发，**与你的当前工作目录无关**。
+> 最稳妥的写法是用 skill 目录的绝对路径：
+>
+> ```bash
+> node "C:/Users/1/.workbuddy/skills/content-repub/scripts/seo-radar/seo_radar.cjs"
+> ```
+>
+> 产出（`.workbuddy/seo/`）始终写到**你当前的项目根**：脚本会从当前目录向上探测含 `.workbuddy` 的目录；也可用 `--project E:/你的项目` 显式指定。
 
 可选参数：
 
@@ -16,9 +25,10 @@ node run/seo_radar.cjs
 |------|------|------|
 | `--weeks <n>` | 1 | 回溯周数（1 = 近 7 天） |
 | `--max <n>` | 20 | 每个根词抓取条数 |
+| `--project <dir>` | 自动探测 | 指定产出项目根（`.workbuddy/seo/` 的父目录） |
 | `--json` | 关 | 只输出 JSON，不打日志 |
 
-产出（均在 `.workbuddy/seo/`）：
+产出（均在**项目根**的 `.workbuddy/seo/`）：
 
 | 文件 | 用途 |
 |------|------|
@@ -55,12 +65,12 @@ node run/seo_radar.cjs
 
 ## 四、维护
 
-| 要改什么 | 改哪里 |
+| 要改什么 | 改哪里（相对本 skill 目录） |
 |---------|--------|
-| 增删根词 | `run/seo_roots.json` 的 `roots` |
-| 增删专业名词 | `run/seo_dictionary.json` 的 `terms` |
-| 规范写法变体 | `run/seo_dictionary.json` 的 `aliases` |
-| 过滤噪音 | `run/seo_roots.json` 的 `stopwords` + 脚本内 `BAD_ABBR` |
+| 增删根词 | `scripts/seo-radar/seo_roots.json` 的 `roots` |
+| 增删专业名词 | `scripts/seo-radar/seo_dictionary.json` 的 `terms` |
+| 规范写法变体 | `scripts/seo-radar/seo_dictionary.json` 的 `aliases` |
+| 过滤噪音 | `scripts/seo-radar/seo_roots.json` 的 `stopwords` + 脚本内 `BAD_ABBR` |
 
 ## 五、已知限制（务必了解）
 

@@ -37,12 +37,16 @@ description: 把 X（Twitter）文章或 AI 圈新闻抓取下来，先经关键
 读 `references/seo-radar.md`，在**抓新闻之前**运行为公众号做选题与关键词优化：
 
 ```bash
-node run/seo_radar.cjs
+node scripts/seo-radar/seo_radar.cjs
 ```
+
+> **脚本位置固定**：脚本与配置（`seo_roots.json` / `seo_dictionary.json`）都在本 skill 的 `scripts/seo-radar/` 目录下，**与其他 skill 一样随 skill 分发，不依赖你当前的工作目录**。
+> 用完整路径调用最稳妥：`node "<skill目录>/scripts/seo-radar/seo_radar.cjs"`。
+> 若脚本从 skill 目录调用，产出仍写到你**当前项目根**（自动向上探测含 `.workbuddy` 的目录），也可用 `--project E:/你的项目` 显式指定。
 
 原理：搜狗微信检索 10 个 AI 根词 → 过滤近 7 天文章 → 从标题/摘要提取高频 **AI 专业名词** → 与上一周词表环比，产出「升温词」。
 
-产出 `.workbuddy/seo/latest.json`，三个关键字段：`terms`（高频专业名词）、`rising`（升温词）、`fresh`（本周新词）。
+产出写到当前项目根的 `.workbuddy/seo/latest.json`，三个关键字段：`terms`（高频专业名词）、`rising`（升温词）、`fresh`（本周新词）。
 
 **必须落到三处**（否则本步等于白跑）：
 
