@@ -105,9 +105,11 @@ python _fetch_tweet.py "https://x.com/用户名/status/帖子ID"
 推送前补齐标题与封面：
 
 - **标题**：调用 **bigpeng-hot-gzh** 技能（路径 A）生成候选标题，取它的「首选」作为 `--title`。输入为当天最热门一条新闻的简写（见 `references/title.md`），该技能按 7 型公式出 6 个不同公式候选 + 首选。
-- **封面**：读 `references/cover.md`，用 **punk-cover 方法**生成封面提示词（选风格 + 按蓝图编译，见 `~/.workbuddy/skills/punk-cover/` 与 `~/.workbuddy/styles/`），再生成 2.35:1 横版封面作为 `--cover`。**封面必须带标题文字 + 具体视觉主体 + 高对比配色**。
+- **封面**：读 `references/cover.md`，用 **punk-cover 方法**生成封面提示词（选风格 + 按蓝图编译，见 `~/.workbuddy/skills/punk-cover/` 与 `~/.workbuddy/styles/`），再生成 2.35:1 横版封面作为 `--cover`。**封面为纯视觉图、不画任何文字**（标题由公众号平台显示）+ 具体视觉主体 + 高对比配色。
 
-> 生图路由：优先本地 codex CLI（`codex exec --skip-git-repo-check "…"`），出错或无响应时降级 grok CLI（`grok -p "…"`）。codex 下**不要加 `-m gpt-image-2`**（会报「gpt-image-2 不支持 ChatGPT 账号」），用默认内置生图工具。
+> **生图前置：网络出口**。codex / grok 的生图接口都在境外（`chatgpt.com` / `api.x.ai`），须先 `export HTTPS_PROXY=socks5h://127.0.0.1:10808 HTTP_PROXY=socks5h://127.0.0.1:10808 ALL_PROXY=socks5h://127.0.0.1:10808`（v2rayN 的 SOCKS5 入口，端口会变，用前探测 `xray.exe` 监听端口）。先用 `curl -x socks5h://127.0.0.1:10808 https://chatgpt.com/` 确认返回任意 HTTP 状态码（403/421 均算通）；返回 `000` 即网络不通，直接报告用户，不要启动生图空等。详见 `references/cover.md`。
+
+> 生图路由：走本地 codex CLI（`codex exec --skip-git-repo-check`，长提示词用 `cat prompt.txt | codex exec …` 喂 stdin）。codex 下**不要加 `-m gpt-image-2`**（会报「gpt-image-2 不支持 ChatGPT 账号」），用默认内置生图工具。**不要用 grok 作降级**——grok 是纯文本模型，不落盘图片（2026-08-31 / 09-22 两次实测）。codex "长时间无输出"时先查目录，它常已在后台合成完成。
 
 ---
 
@@ -159,6 +161,8 @@ AUTHOR_NAME=默认作者名（可选）
 | 排版标签闭合错乱 | 章节标题 section 未闭合 | 校验 section 开闭数量一致 |
 | 雷达大量根词报 302 | 搜狗反爬限流 | 一天只跑一次；脚本已内置退避+补救，仍失败则不阻塞出稿 |
 | 雷达报找不到 cheerio | 本机 npm 在沙箱内中断 | `cd C:/Users/1/.workbuddy/binaries/node/workspace && npm install cheerio --registry=https://registry.npmmirror.com` |
+| 生图 CLI 长时间无输出（挂起数十分钟） | 境外 API 不通（代理未开/端口变了/节点挂了），**不是 CLI 故障** | 先 `curl -x socks5h://127.0.0.1:10808 https://chatgpt.com/`：返回 403/421 等状态码=通；返回 000=不通，此时立刻停止重试，报告用户并保留 HTML 稿件待网络恢复 |
+| codex 打印 `Reading additional input from stdin...` 后不动 | 长 prompt 当参数传且后台运行，codex 转为等 stdin | 改用 `cat prompt.txt \| codex exec --skip-git-repo-check --cd <dir>` |
 
 ---
 
